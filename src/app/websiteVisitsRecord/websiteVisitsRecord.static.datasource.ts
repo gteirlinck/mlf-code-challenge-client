@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { Observer } from 'rxjs/Observer';
 import { WebsiteVisitsRecord } from './websiteVisitsRecord.model';
-import { WebsiteVisitsRecordDataSource } from './websiteVisitsRecord.datasource.model';
+import { WebsiteVisitsRecordDataSource } from './websiteVisitsRecord.datasource';
 import uuid from 'js-uuid';
 
 /*
@@ -18,13 +17,14 @@ export class WebsiteVisitsRecordStaticDataSource implements WebsiteVisitsRecordD
 
   constructor() {
       this.data = new Array<WebsiteVisitsRecord>(
-        new WebsiteVisitsRecord(String(uuid.v1()), new Date(2016, 0, 6), 'website-a', 14065457),
-        new WebsiteVisitsRecord(String(uuid.v1()), new Date(2016, 0, 6), 'website-b', 19831166),
-        new WebsiteVisitsRecord(String(uuid.v1()), new Date(2016, 0, 6), 'website-c', 104346720),
-        new WebsiteVisitsRecord(String(uuid.v1()), new Date(2016, 0, 6), 'website-d', 21536612),
-        new WebsiteVisitsRecord(String(uuid.v1()), new Date(2016, 0, 6), 'website-e', 13246531),
-        new WebsiteVisitsRecord(String(uuid.v1()), new Date(2016, 0, 27), 'website-b', 23154653),
-        new WebsiteVisitsRecord(String(uuid.v1()), new Date(2016, 0, 27), 'website-c', 123831275)
+        new WebsiteVisitsRecord(String(uuid.v1()), new Date(2016, 0, 6), 'www.website-a', 14065457),
+        new WebsiteVisitsRecord(String(uuid.v1()), new Date(2016, 0, 6), 'www.website-b', 19831166),
+        new WebsiteVisitsRecord(String(uuid.v1()), new Date(2016, 0, 6), 'www.website-c', 104346720),
+        new WebsiteVisitsRecord(String(uuid.v1()), new Date(2016, 0, 6), 'www.website-d', 21536612),
+        new WebsiteVisitsRecord(String(uuid.v1()), new Date(2016, 0, 6), 'www.website-e', 13246531),
+        new WebsiteVisitsRecord(String(uuid.v1()), new Date(2016, 0, 6), 'www.website-f', 29422150),
+        new WebsiteVisitsRecord(String(uuid.v1()), new Date(2016, 0, 27), 'www.website-b', 23154653),
+        new WebsiteVisitsRecord(String(uuid.v1()), new Date(2016, 0, 27), 'www.website-c', 123831275)
       );
   }
 

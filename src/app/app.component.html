@@ -1,17 +1,1 @@
-<table class="table table-bordered table-striped text-right">
-  <thead>
-    <tr>
-      <th>ID</th>
-      <th>Date</th>
-      <th>Website</th>
-      <th>Visits</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let item of records">
-      <td>{{ item.id }}</td>
-      <td>{{ item.date | date:'yyyy-MM-dd' }}</td>
-      <td>{{ item.website }}</td>
-      <td>{{ item.visitsCount | number }}
-    </tr>
-</table>
+<router-outlet></router-outlet>

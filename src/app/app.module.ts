@@ -1,13 +1,14 @@
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { WebsiteVisitsRecordModule } from './model/websiteVisitsRecord.model.module';
+import { BrowserModule } from '@angular/platform-browser';
+import { WebsiteVisitsRecordModule } from './websiteVisitsRecord/websiteVisitsRecord.module';
 import { AppComponent } from './app.component';
+import { routing } from './app.routing';
 
 @NgModule({
   declarations: [
     AppComponent
   ],
-  imports: [BrowserModule, WebsiteVisitsRecordModule],
+  imports: [BrowserModule, routing, WebsiteVisitsRecordModule],
   providers: [],
   bootstrap: [AppComponent]
 })

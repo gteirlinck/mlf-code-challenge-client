@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
+import { ExclusionListItem } from '../exclusionsList/exclusionsList.model';
+import { ExclusionsListRepository } from '../exclusionsList/exclusionsList.repository';
 import { WebsiteVisitsRecord } from './websiteVisitsRecord.model';
-import { WebsiteVisitsRecordDataSource } from './websiteVisitsRecord.datasource.model';
+import { WebsiteVisitsRecordDataSource } from './websiteVisitsRecord.datasource';
+import { ExclusionsListDataSource } from '../exclusionsList/exclusionsList.datasource';
 
 @Injectable()
 export class WebsiteVisitsRecordRepository {
@@ -8,12 +11,13 @@ export class WebsiteVisitsRecordRepository {
     private records: WebsiteVisitsRecord[] = [];
     private locator = (record: WebsiteVisitsRecord, id: string) => record.id === id;
 
-    constructor(private datasource: WebsiteVisitsRecordDataSource) {
-      console.log('Requesting records');
+    constructor(private datasource: WebsiteVisitsRecordDataSource, private exclusionsListRepository: ExclusionsListRepository) {
+      // Load websites visit records
       this.datasource.getRecords()
       .subscribe(records => {
-        console.log('Received records', records);
-        this.records = records;
+        // Filter out excluded items
+        this.records = records
+        .filter(record => !exclusionsListRepository.isWebsiteExcluded(record.website, record.date));
       });
     }
 
