@@ -10,7 +10,7 @@ export class ExclusionsListRestDataSource implements ExclusionsListDataSource {
 
   constructor(
     private httpService: MlfAppHttpService
-  ) {}
+  ) { }
 
   getExclusionsList(): Observable<ExclusionListItem[]> {
     const path = 'exclusions';

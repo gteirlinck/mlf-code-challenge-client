@@ -5,7 +5,7 @@ import { ExclusionsListModule } from '../exclusionsList/exclusionsList.module';
 import { WebsiteVisitsRecordComponent } from './websiteVisitsRecord.component';
 import { WebsiteVisitsRecordRepository } from './websiteVisitsRecord.repository';
 import { WebsiteVisitsRecordDataSource } from './websiteVisitsRecord.datasource';
-import { WebsiteVisitsRecordStaticDataSource } from './websiteVisitsRecord.static.datasource';
+import { WebsiteVisitsRecordRestDataSource } from './websiteVisitsRecord.rest.datasource';
 import { ExclusionsListRepository } from '../exclusionsList/exclusionsList.repository';
 
 @NgModule({
@@ -15,7 +15,7 @@ import { ExclusionsListRepository } from '../exclusionsList/exclusionsList.repos
   providers: [
     ExclusionsListRepository,
     WebsiteVisitsRecordRepository,
-    { provide: WebsiteVisitsRecordDataSource, useClass: WebsiteVisitsRecordStaticDataSource }
+    { provide: WebsiteVisitsRecordDataSource, useClass: WebsiteVisitsRecordRestDataSource }
   ],
 })
 export class WebsiteVisitsRecordModule { }
