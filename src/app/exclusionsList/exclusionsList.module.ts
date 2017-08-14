@@ -1,12 +1,14 @@
 import { NgModule } from '@angular/core';
 import { ExclusionsListDataSource } from './exclusionsList.datasource';
 import { ExclusionsListRepository } from './exclusionsList.repository';
-import { ExclusionsListStaticDataSource } from './exclusionsList.static.datasource';
+import { ExclusionsListRestDataSource } from './exclusionsList.rest.datasource';
+import { MlfAppHttpModule } from '../mlfAppHttp/mlfAppHttp.module';
+import { MlfAppHttpService } from '../mlfAppHttp/mlfAppHttp.service';
 
 @NgModule({
   declarations: [],
-  imports: [],
+  imports: [MlfAppHttpModule],
   exports: [],
-  providers: [ExclusionsListRepository, { provide: ExclusionsListDataSource, useClass: ExclusionsListStaticDataSource }],
+  providers: [ExclusionsListRepository, MlfAppHttpService, { provide: ExclusionsListDataSource, useClass: ExclusionsListRestDataSource }],
 })
 export class ExclusionsListModule { }

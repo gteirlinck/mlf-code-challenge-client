@@ -1,40 +1,33 @@
 import { Injectable } from '@angular/core';
 import { ExclusionListItem } from './exclusionsList.model';
 import { ExclusionsListDataSource } from './exclusionsList.datasource';
+import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class ExclusionsListRepository {
 
-  private exclusionsList: ExclusionListItem[];
+  private exclusionsList: ExclusionListItem[] = [];
 
-  constructor(private datasource: ExclusionsListDataSource) {
-    this.datasource.getExclusionsList()
-    .subscribe(list => this.exclusionsList = list);
-  }
+  constructor(private datasource: ExclusionsListDataSource) { }
 
-  getExclusionsList(): ExclusionListItem[] {
-    return this.exclusionsList;
-  }
+  getExclusionsList(): Observable<ExclusionListItem[]> {
+    return Observable.create(observer => {
+      if (this.exclusionsList.length > 0) {
+        observer.next(this.exclusionsList);
+        observer.complete();
+      } else {
+        this.datasource.getExclusionsList()
+        .subscribe(list => {
+          this.exclusionsList = list
+          .map(item => new ExclusionListItem(
+            item.host, new Date(item.excludedSince), item.excludedTill ? new Date(item.excludedTill) : null)
+          );
 
-  isWebsiteExcluded(website: string, date: Date) {
-    return this.exclusionsList.findIndex(item => {
-      // Filter host name
-      if (!website.toLowerCase().endsWith(item.host.toLowerCase())) {
-        return false;
+          observer.next(this.exclusionsList);
+          observer.complete();
+        });
       }
-
-      // Filter excluded date range lower bound
-      if (date < item.excludedSince) {
-        return false;
-      }
-
-      // Filter excluded date range upper bound (id any)
-      if (item.excludedTill && date > item.excludedTill) {
-        return false;
-      }
-
-      return true;
-    }) > -1;
+    });
   }
 
 }
