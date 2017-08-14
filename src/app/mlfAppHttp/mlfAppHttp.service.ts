@@ -5,6 +5,7 @@ import { ExclusionListItem } from '../exclusionsList/exclusionsList.model';
 import { WebsiteVisitsRecord } from '../websiteVisitsRecord/websiteVisitsRecord.model';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
+import { User } from '../auth/user.model';
 
 export const REST_URL = new OpaqueToken('rest_url');
 
@@ -21,7 +22,7 @@ export class MlfAppHttpService {
       return this.sendRequest(RequestMethod.Get, path);
   }
 
-  post(path: string, body: ExclusionListItem | WebsiteVisitsRecord): any {
+  post(path: string, body: ExclusionListItem | WebsiteVisitsRecord | User): any {
     return this.sendRequest(RequestMethod.Post, path, body);
   }
 
@@ -33,7 +34,7 @@ export class MlfAppHttpService {
     return this.sendRequest(RequestMethod.Delete, path);
   }
 
-  private sendRequest(verb: RequestMethod, path: string, body?: ExclusionListItem | WebsiteVisitsRecord): any {
+  private sendRequest(verb: RequestMethod, path: string, body?: ExclusionListItem | WebsiteVisitsRecord | User): any {
     const headers = new Headers();
     headers.set('Application-Name', 'mlfApp');
 
