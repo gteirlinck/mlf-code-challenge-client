@@ -35,7 +35,8 @@ export class MlfAppHttpService {
 
   private createRequestOptions() {
     // All API routes are JWT-protected: we need to retrieve the access token managed by the AuthService
-    // (we could also query localStorage.getItem('token') directly, but accessing it through the AuthService is more respectful of the separation of concerns principle)
+    // (we could also query localStorage.getItem('token') directly,
+    // but accessing it through the AuthService is more respectful of the separation of concerns principle)
     const headers = new Headers({
       'Authorization': `Bearer ${this.authService.accessToken}`
     });
