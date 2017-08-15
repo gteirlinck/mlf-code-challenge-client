@@ -36,21 +36,6 @@ export class WebsiteVisitsRecordRepository {
         return this.records;
     }
 
-    saveRecord(record: WebsiteVisitsRecord) {
-      if (!record.id) {
-        // The record doesn't have an ID: this is a new record
-        this.datasource.createRecord(record)
-        .subscribe(newRecord => this.records.push(newRecord));
-      } else {
-        // The record has an ID: this is an existing record that needs to be updated
-        this.datasource.updateRecord(record)
-        .subscribe(updatedRecord => {
-          const index = this.records.findIndex(existingRecord => this.locator(existingRecord, updatedRecord.id));
-          this.records.splice(index, 1, updatedRecord);
-        });
-      }
-    }
-
   private isWebsiteExcluded(website: string, date: Date): boolean {
     return this.exclusionsList.findIndex(item => {
       // Filter host name

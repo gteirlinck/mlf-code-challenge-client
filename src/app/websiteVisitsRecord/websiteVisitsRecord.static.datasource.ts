@@ -28,51 +28,9 @@ export class WebsiteVisitsRecordStaticDataSource implements WebsiteVisitsRecordD
       );
   }
 
-  createRecord(record: WebsiteVisitsRecord): Observable<WebsiteVisitsRecord> {
-    return Observable.create(observer => {
-
-      // Assign random string ID to the record
-      record.id = String(uuid.v1());
-
-      // Add record to the records array
-      this.data.push(record);
-
-      observer.next(record);
-      observer.complete();
-    });
-  }
-
-  deleteRecord(id: string): Observable<boolean> {
-    return Observable.create(observer => {
-      const index = this.data.findIndex(record => this.locator(record, id));
-
-      if (index > -1) {
-        this.data.splice(index, 1);
-        observer.next(true);
-      } else {
-        observer.next(false);
-      }
-
-      observer.complete();
-    });
-  }
-
   getRecords(): Observable<WebsiteVisitsRecord[]> {
     return Observable.create(observer => {
       observer.next(this.data);
-      observer.complete();
-    });
-  }
-
-  updateRecord(record: WebsiteVisitsRecord): Observable<WebsiteVisitsRecord> {
-    return Observable.create(observer => {
-      // Locate the existing record in the array and replace it with the updated record
-      const index = this.data.findIndex(existingRecord => this.locator(existingRecord, record.id));
-      if (index > -1) {
-        this.data.splice(index, 1, record);
-      }
-
-      observer.next(record);
       observer.complete();
     });
   }
