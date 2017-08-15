@@ -1,11 +1,10 @@
+<h1 class="text-center">Welcome</h1>
 <div class="text-center" *ngIf="authenticated; else notAuthedTemplate">
-  <h1>Welcome {{ username }}</h1>
-  <button class="btn btn-primary" (click)="enter()">Enter</button>
+  <a class="btn btn-primary" routerLink="/visits">Enter</a>
   <button class="btn btn-secondary" (click)="logout()">Logout</button>
 </div>
 <ng-template #notAuthedTemplate>
   <div class="text-center">
-    <h1>Welcome</h1>
     <button class="btn btn-primary" (click)="login()">Login</button>
   </div>
 </ng-template>

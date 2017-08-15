@@ -13,8 +13,7 @@ export class ExclusionsListRestDataSource implements ExclusionsListDataSource {
   ) { }
 
   getExclusionsList(): Observable<ExclusionListItem[]> {
-    const path = 'exclusions';
-    return this.httpService.get(path);
+    return this.httpService.getExclusions();
   }
 
 }

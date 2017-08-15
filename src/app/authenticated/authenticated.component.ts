@@ -11,8 +11,8 @@ export class AuthenticatedComponent {
     private authService: AuthService
   ) { }
 
-  get username(): string {
-    return this.authService.username;
+  get authenticated(): boolean {
+    return this.authService.authenticated;
   }
 
   logout(): void {
