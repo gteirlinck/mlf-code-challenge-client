@@ -12,23 +12,25 @@ export class WebsiteVisitsRecordRestDataSource implements WebsiteVisitsRecordDat
   ) { }
 
   createRecord(record: WebsiteVisitsRecord): Observable<WebsiteVisitsRecord> {
-    const path = 'records';
-    return this.httpService.post(path, record);
+    // const path = 'records';
+    // return this.httpService.post(path, record);
+    return null;
   }
 
   deleteRecord(id: string): Observable<boolean> {
-    const path = `records/${id}`;
-    return this.httpService.delete(path);
+    // const path = `records/${id}`;
+    // return this.httpService.delete(path);
+    return null;
   }
 
   getRecords(): Observable<WebsiteVisitsRecord[]> {
-    const path = 'records';
-    return this.httpService.get(path);
+    return this.httpService.getVisitRecords();
   }
 
   updateRecord(record: WebsiteVisitsRecord): Observable<WebsiteVisitsRecord> {
-    const path = `records/${record.id}`;
-    return this.httpService.put(path, record);
+    // const path = `records/${record.id}`;
+    // return this.httpService.put(path, record);
+    return null;
   }
 
 }

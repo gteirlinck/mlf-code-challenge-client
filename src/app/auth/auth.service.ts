@@ -1,72 +1,87 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { User } from './user.model';
-import { AuthDataSource } from './auth.datasource';
-import 'rxjs/add/operator/map';
 import { Router } from '@angular/router';
+import { tokenNotExpired, JwtHelper } from 'angular2-jwt';
+import { AUTH0_CONFIG } from './auth0.config';
+import 'rxjs/add/operator/map';
 
-const STORAGE_KEY = 'currentUser';
+declare var auth0: any;
 
 @Injectable()
 export class AuthService {
 
-  private _authToken: string = null;
-  public _username: string = null;
+  // Create Auth0 web auth instance
+  auth0 = new auth0.WebAuth({
+    clientID: AUTH0_CONFIG.clientId,
+    domain: AUTH0_CONFIG.clientDomain
+  });
+
+  // Create a stream of logged in status to communicate throughout app
+  private loggedIn = false;
 
   constructor(
-    private datasource: AuthDataSource,
     private router: Router
-  ) { }
+  ) {
+    // If authenticated, set local profile property and update login status subject
+    if (tokenNotExpired('token')) {
+      this.loggedIn = true;
+    }
+  }
 
-  authenticate(username: string, password: string): Observable<boolean> {
-    return this.datasource.authenticate(new User(username, password))
-    .map(authToken => {
-      if (authToken) {
-        this._username = username;
-        this._authToken = authToken;
-        localStorage.setItem(STORAGE_KEY, JSON.stringify({ username: this._username, authToken: this._authToken }));
-        return true;
-      } else {
-        return false;
+  login() {
+    // Auth0 authorize request
+    // Note: nonce is automatically generated: https://auth0.com/docs/libraries/auth0js/v8#using-nonce
+    this.auth0.authorize({
+      responseType: 'token id_token',
+      redirectUri: AUTH0_CONFIG.redirect,
+      audience: AUTH0_CONFIG.audience,
+      scope: AUTH0_CONFIG.scope
+    });
+  }
+
+  handleAuth() {
+    // When Auth0 hash parsed, get profile
+    this.auth0.parseHash((err, authResult) => {
+      if (authResult && authResult.accessToken && authResult.idToken) {
+        window.location.hash = '';
+        this.setSessionAndContinueNavigation(authResult);
+      } else if (err) {
+        this.router.navigateByUrl('/');
+        console.error(`Error: ${err.error}`);
       }
     });
   }
 
-  logout(): void {
-    // Clear token and remove user from local storage to log user out
-    this._authToken = null;
-    this._username = null;
-    localStorage.removeItem(STORAGE_KEY);
+  private setSessionAndContinueNavigation(authResult: any) {
+    // Use access token to retrieve user's profile and set session
+    this.auth0.client.userInfo(authResult.accessToken, (err, profile) => {
+      // Save session data and update login status subject
+      localStorage.setItem('token', authResult.accessToken);
+      localStorage.setItem('id_token', authResult.idToken);
+      localStorage.setItem('profile', JSON.stringify(profile));
 
-    this.router.navigateByUrl('/');
+      this.loggedIn = true;
+
+      this.router.navigateByUrl('/visits');
+    });
+  }
+
+  logout(): void {
+    // Remove tokens and profile, update login status subject
+    localStorage.removeItem('token');
+    localStorage.removeItem('id_token');
+    localStorage.removeItem('profile');
+
+    this.router.navigate(['/']);
+    this.loggedIn = false;
   }
 
   get authenticated(): boolean {
-    if (this._authToken && this._username) {
-      // auth token and username are set: we are already authenticated
-      return true;
-    } else {
-      const curUserFromStorage = localStorage.getItem(STORAGE_KEY);
-
-      if (curUserFromStorage) {
-        // current user data found in local storage: we are already authenticated
-        const curUserFromStorageObj = JSON.parse(curUserFromStorage);
-        this._authToken = curUserFromStorageObj.authToken;
-        this._username = curUserFromStorageObj.username;
-
-        return true;
-      }
-    }
-
-    return false;
+    return this.loggedIn;
   }
 
-  get username() {
-    return this._username;
-  }
-
-  get authToken() {
-    return this._authToken;
+  get accessToken(): string {
+    return localStorage.getItem('token');
   }
 
 }
