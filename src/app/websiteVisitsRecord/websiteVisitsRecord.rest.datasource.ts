@@ -11,8 +11,12 @@ export class WebsiteVisitsRecordRestDataSource implements WebsiteVisitsRecordDat
     private httpService: MlfAppHttpService
   ) { }
 
-  getRecords(): Observable<WebsiteVisitsRecord[]> {
-    return this.httpService.getVisitRecords();
+  getRecords(date: string, maxVisitsCount: number): Observable<WebsiteVisitsRecord[]> {
+    return this.httpService.getVisitRecords(date, maxVisitsCount);
+  }
+
+  getValidDates(): Observable<string[]> {
+    return this.httpService.getValidDates();
   }
 
 }

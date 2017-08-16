@@ -1,7 +1,6 @@
 import { Inject, Injectable, OpaqueToken } from '@angular/core';
 import { Headers, Http, Request, RequestMethod, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
-import { ExclusionListItem } from '../exclusionsList/exclusionsList.model';
 import { WebsiteVisitsRecord } from '../websiteVisitsRecord/websiteVisitsRecord.model';
 import { AuthService } from '../auth/auth.service';
 import 'rxjs/add/operator/catch';
@@ -19,21 +18,38 @@ export class MlfAppHttpService {
     private authService: AuthService
   ) {}
 
-  getExclusions(): Observable<ExclusionListItem[]> {
+  getVisitRecords(date: string, maxResultsCount: number): Observable<WebsiteVisitsRecord[]> {
+    const options = this.createRequestOptions();
+    options.params = this.createRequestParams(date, maxResultsCount);
+
     return this.http
-    .get(`${this.url}/exclusions`, this.createRequestOptions())
+    .get(`${this.url}/records`, options)
     .map(response => response.json())
     .catch((error: Response) => Observable.throw(`Network Error: ${error.statusText} (${error.status})`));
   }
 
-  getVisitRecords(): Observable<WebsiteVisitsRecord[]> {
+  getValidDates(): Observable<string[]> {
     return this.http
-    .get(`${this.url}/records`, this.createRequestOptions())
+    .get(`${this.url}/records/dates`, this.createRequestOptions())
     .map(response => response.json())
     .catch((error: Response) => Observable.throw(`Network Error: ${error.statusText} (${error.status})`));
   }
 
-  private createRequestOptions() {
+  private createRequestParams(date: string, maxResultsCount: number): any {
+    const params: any = {};
+
+    if (date) {
+      params.date = date;
+    }
+
+    if (maxResultsCount && maxResultsCount > 0) {
+      params.maxResultsCount = maxResultsCount;
+    }
+
+    return params;
+  }
+
+  private createRequestOptions(): RequestOptions {
     // All API routes are JWT-protected: we need to retrieve the access token managed by the AuthService
     // (we could also query localStorage.getItem('token') directly,
     // but accessing it through the AuthService is more respectful of the separation of concerns principle)

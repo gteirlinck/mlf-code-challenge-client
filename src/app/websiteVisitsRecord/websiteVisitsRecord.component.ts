@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
 import { WebsiteVisitsRecord } from './websiteVisitsRecord.model';
-import { WebsiteVisitsRecordRepository } from './websiteVisitsRecord.repository';
-
-const MAX_RECORDS_TO_SHOW = 5;
+import { WebsiteVisitsRecordDataSource } from './websiteVisitsRecord.datasource';
 
 @Component({
   selector: 'app-website-visits-record',
@@ -10,27 +8,29 @@ const MAX_RECORDS_TO_SHOW = 5;
 })
 export class WebsiteVisitsRecordComponent {
 
-  dateStr: string = null;
+  validDates: string[] = [];
+  maxRecordsCount = 5;
 
-  private recordDateFilter = (record): boolean => this.dateStr == null || record.date.getDate() === (new Date(this.dateStr)).getDate();
+  records: WebsiteVisitsRecord[] = [];
+  selectedDate: string = null;
 
-  private recordDescendingSort = (record1, record2): number => {
-    if (record1.visitsCount < record2.visitsCount) {
-      return 1;
-    } else if (record1.visitsCount > record2.visitsCount) {
-      return -1;
-    } else {
-      return 0;
-    }
+  constructor(private dataSource: WebsiteVisitsRecordDataSource) {
+    this.dataSource.getValidDates()
+    .subscribe(validDates => this.validDates = validDates);
+
+    this.queryRecords();
   }
 
-  constructor(private recordsRepository: WebsiteVisitsRecordRepository) {}
-
-  public get records(): WebsiteVisitsRecord[] {
-    return this.recordsRepository.getRecords()
-    .filter(this.recordDateFilter)
-    .sort(this.recordDescendingSort)
-    .slice(0, MAX_RECORDS_TO_SHOW);
+  selectedChanged() {
+    this.queryRecords();
   }
 
+  get dateSelected() {
+    return this.selectedDate && this.selectedDate.length > 0;
+  }
+
+  private queryRecords() {
+    this.dataSource.getRecords(this.selectedDate, this.maxRecordsCount)
+    .subscribe(records => this.records = records);
+  }
 }

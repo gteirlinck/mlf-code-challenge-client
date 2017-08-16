@@ -35,4 +35,11 @@ export class WebsiteVisitsRecordStaticDataSource implements WebsiteVisitsRecordD
     });
   }
 
+  getValidDates(): Observable<string[]> {
+    return Observable.create(observer => {
+      observer.next(['2016-01-27', '2016-01-06']);
+      observer.complete();
+    });
+  }
+
 }

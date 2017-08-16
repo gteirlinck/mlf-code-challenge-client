@@ -8,7 +8,7 @@ import { CallbackComponent } from './auth/callback.component';
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'callback', component: CallbackComponent },
-  { path: 'visits', component: WebsiteVisitsRecordComponent, canActivate: [AuthGuard, HomeFirstGuard] },
+  { path: 'visits', component: WebsiteVisitsRecordComponent, canActivate: [AuthGuard/*, HomeFirstGuard*/] },
   { path: '**', redirectTo: '/visits' }
 ];
 

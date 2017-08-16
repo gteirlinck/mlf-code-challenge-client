@@ -1,21 +1,34 @@
 <app-mlf-authenticated></app-mlf-authenticated>
 
-<input type="date" [(ngModel)]="dateStr" class="form-control" />
+<div class="col-xs-4 p-a-1">
+  <select class="form-control" [(ngModel)]="selectedDate" (change)="selectedChanged()">
+    <option value="">All</option>
+    <option *ngFor="let date of validDates">{{ date }}</option>
+  </select>
+</div>
+<div class="col-xs-4 p-a-1">
+  <select class="form-control" [(ngModel)]="maxRecordsCount" (change)="selectedChanged()">
+    <option *ngFor="let count of [5, 10, 20]">{{ count }}</option>
+  </select>
+</div>
 
-<table class="table table-bordered table-striped text-right">
-  <thead>
-    <tr>
-      <th>ID</th>
-      <th>Date</th>
-      <th>Website</th>
-      <th>Visits</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let item of records">
-      <td>{{ item.id }}</td>
-      <td>{{ item.date | date:'yyyy-MM-dd' }}</td>
-      <td>{{ item.website }}</td>
-      <td>{{ item.visitsCount | number }}
-    </tr>
-</table>
+<div class="card m-4">
+  <h4 class="card-header">Website Visits <small>({{ selectedDate ? selectedDate : 'All days' }})</small></h4>
+  <table class="table table-hover table-responsive">
+    <thead class="thead-default">
+      <tr>
+        <th>#</th>
+        <th>Date</th>
+        <th>Website</th>
+        <th>Visits</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of records; let i = index">
+        <th>{{ i + 1 }}</th>
+        <td>{{ item.date | date:'yyyy-MM-dd' }}</td>
+        <td>{{ item.website }}</td>
+        <td>{{ item.visitsCount | number }}
+      </tr>
+  </table>
+</div>
