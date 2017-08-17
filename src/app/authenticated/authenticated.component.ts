@@ -3,7 +3,7 @@ import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'app-mlf-authenticated',
-  templateUrl: './authenticated.component.html'
+  template: '<button *ngIf="authenticated" class="btn btn-secondary btn-sm" (click)="logout()">Logout</button>'
 })
 export class AuthenticatedComponent {
 

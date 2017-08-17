@@ -1,10 +1,17 @@
-<h1 class="text-center">Welcome</h1>
-<div class="text-center" *ngIf="authenticated; else notAuthedTemplate">
-  <a class="btn btn-primary" routerLink="/visits">Enter</a>
-  <button class="btn btn-secondary" (click)="logout()">Logout</button>
-</div>
-<ng-template #notAuthedTemplate>
-  <div class="text-center">
-    <button class="btn btn-primary" (click)="login()">Login</button>
+<div class="card m-5 text-center">
+  <h2 class="card-header">Websites Visits Report</h2>
+  <div class="card-body">
+    <h1 class="mb-4">Welcome</h1>
+    <div *ngIf="authenticated; else notAuthedTemplate">
+      <a class="btn btn-primary" routerLink="/visits">Enter</a>
+      <button class="btn btn-secondary" (click)="logout()">Logout</button>
+    </div>
   </div>
+  <div class="card-footer text-left text-muted">
+      &copy; 2017 Guillaume Teirlinck
+  </div>
+</div>
+
+<ng-template #notAuthedTemplate>
+  <button class="btn btn-primary" (click)="login()">Login</button>
 </ng-template>

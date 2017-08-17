@@ -1,26 +1,27 @@
-<app-mlf-authenticated></app-mlf-authenticated>
-
-<div class="col-xs-4 p-a-1">
-  <select class="form-control" [(ngModel)]="selectedDate" (change)="selectedChanged()">
-    <option value="">All</option>
-    <option *ngFor="let date of validDates">{{ date }}</option>
-  </select>
-</div>
-<div class="col-xs-4 p-a-1">
-  <select class="form-control" [(ngModel)]="maxRecordsCount" (change)="selectedChanged()">
-    <option *ngFor="let count of [5, 10, 20]">{{ count }}</option>
-  </select>
-</div>
 
 <div class="card m-4">
-  <h4 class="card-header">Website Visits <small>({{ selectedDate ? selectedDate : 'All days' }})</small></h4>
+  <h4 class="card-header">
+    Website Visits <small>({{ selectedDate ? selectedDate : 'All days' }})</small>
+    <app-mlf-authenticated class="float-right"></app-mlf-authenticated>
+  </h4>
+  <div class="m-2">
+    <label class="mr-2" for="dateSelect">Date</label>
+    <select class="custom-select" id="dateSelect" [(ngModel)]="selectedDate" (change)="selectedChanged()">
+      <option value="">All</option>
+      <option *ngFor="let date of validDates">{{ date }}</option>
+    </select>
+    <label class="ml-4 mr-2" for="countSelect">Max Results Count</label>
+    <select class="custom-select" id="countSelect" [(ngModel)]="maxRecordsCount" (change)="selectedChanged()">
+        <option *ngFor="let count of [5, 10, 20]">{{ count }}</option>
+      </select>
+    </div>
   <table class="table table-hover table-responsive">
     <thead class="thead-default">
       <tr>
         <th>#</th>
         <th>Date</th>
         <th>Website</th>
-        <th>Visits</th>
+        <th class="text-right">Visits</th>
       </tr>
     </thead>
     <tbody>
@@ -28,7 +29,10 @@
         <th>{{ i + 1 }}</th>
         <td>{{ item.date | date:'yyyy-MM-dd' }}</td>
         <td>{{ item.website }}</td>
-        <td>{{ item.visitsCount | number }}
+        <td class="text-right">{{ item.visitsCount | number }}
       </tr>
   </table>
+  <div class="card-footer text-muted">
+      &copy; 2017 Guillaume Teirlinck
+  </div>
 </div>
