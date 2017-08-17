@@ -4,7 +4,7 @@ This web application was built with Angular 4 and will be hosted on Microsoft Az
 
 The application displays a report of website visits queried from a backend database populated with data uploaded with the Windows client app.
 
-The application uses Auth0 for its authentication framework (users can register and login with their Google account to access the app). 
+The application uses [Auth0](https://auth0.com/) for its authentication framework (users can register and login with their Google account to access the app). 
 
 ### Generator
 
