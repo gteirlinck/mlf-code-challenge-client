@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { WebsiteVisitsRecord } from './websiteVisitsRecord.model';
 import { WebsiteVisitsRecordDataSource } from './websiteVisitsRecord.datasource';
-import uuid from 'js-uuid';
 
 /*
     This static datasoure will be used for development only.
@@ -17,14 +16,14 @@ export class WebsiteVisitsRecordStaticDataSource implements WebsiteVisitsRecordD
 
   constructor() {
       this.data = new Array<WebsiteVisitsRecord>(
-        new WebsiteVisitsRecord(String(uuid.v1()), new Date(2016, 0, 6), 'www.website-a', 14065457),
-        new WebsiteVisitsRecord(String(uuid.v1()), new Date(2016, 0, 6), 'www.website-b', 19831166),
-        new WebsiteVisitsRecord(String(uuid.v1()), new Date(2016, 0, 6), 'www.website-c', 104346720),
-        new WebsiteVisitsRecord(String(uuid.v1()), new Date(2016, 0, 6), 'www.website-d', 21536612),
-        new WebsiteVisitsRecord(String(uuid.v1()), new Date(2016, 0, 6), 'www.website-e', 13246531),
-        new WebsiteVisitsRecord(String(uuid.v1()), new Date(2016, 0, 6), 'www.website-f', 29422150),
-        new WebsiteVisitsRecord(String(uuid.v1()), new Date(2016, 0, 27), 'www.website-b', 23154653),
-        new WebsiteVisitsRecord(String(uuid.v1()), new Date(2016, 0, 27), 'www.website-c', 123831275)
+        new WebsiteVisitsRecord('a', new Date(2016, 0, 6), 'www.website-a', 14065457),
+        new WebsiteVisitsRecord('b', new Date(2016, 0, 6), 'www.website-b', 19831166),
+        new WebsiteVisitsRecord('c', new Date(2016, 0, 6), 'www.website-c', 104346720),
+        new WebsiteVisitsRecord('d', new Date(2016, 0, 6), 'www.website-d', 21536612),
+        new WebsiteVisitsRecord('e', new Date(2016, 0, 6), 'www.website-e', 13246531),
+        new WebsiteVisitsRecord('f', new Date(2016, 0, 6), 'www.website-f', 29422150),
+        new WebsiteVisitsRecord('g', new Date(2016, 0, 27), 'www.website-b', 23154653),
+        new WebsiteVisitsRecord('h', new Date(2016, 0, 27), 'www.website-c', 123831275)
       );
   }
 
